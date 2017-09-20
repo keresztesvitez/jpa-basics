@@ -1,17 +1,19 @@
 package com.arnoldgalovics.jpa.internal.repository.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
 public class Book {
 
-    public Book(String name, int price, int pages, long isbn, Genre genre) {
+    public Book(String name, int price, int pages, long isbn, Genre genre, Set<Comment> comments) {
         this.name = name;
         this.price = price;
         this.pages = pages;
         this.isbn = isbn;
         this.genre = genre;
+        this.comments = comments;
     }
 
     public Book() {
@@ -34,6 +36,28 @@ public class Book {
     private long isbn;
 
     private Genre genre;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private Set<Comment> comments;
+
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
+    private Set<Author> authors;
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
     public int getId() {
         return id;
@@ -103,6 +127,7 @@ public class Book {
                 ", pages=" + pages +
                 ", isbn=" + isbn +
                 ", genre=" + genre +
+                ", comments=" + comments +
                 '}';
     }
 }

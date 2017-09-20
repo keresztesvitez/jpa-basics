@@ -1,6 +1,7 @@
 package com.arnoldgalovics.jpa.service;
 
 import com.arnoldgalovics.jpa.internal.repository.domain.Book;
+import com.arnoldgalovics.jpa.internal.repository.domain.Genre;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,23 @@ public class BookService {
     private EntityManager entityManager;
 
     @Transactional
-    public void save(Book book) {
+    public void save() {
+
+
+
         entityManager.persist(book);
         out.println("after persist");
+    }
+
+    private Book createBook() {
+        Book book = new Book();
+
+        book.setName("Veritas");
+        book.setGenre(Genre.FANTASY);
+        book.setIsbn(2354654);
+        book.setPages(333);
+        book.setPrice(111);
+
     }
 
     @Transactional

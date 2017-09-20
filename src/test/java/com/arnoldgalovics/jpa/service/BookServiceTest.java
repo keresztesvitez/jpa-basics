@@ -1,7 +1,5 @@
 package com.arnoldgalovics.jpa.service;
 
-import com.arnoldgalovics.jpa.internal.repository.domain.Book;
-import com.arnoldgalovics.jpa.internal.repository.domain.Genre;
 import com.arnoldgalovics.jpa.util.CleanUpTestExecutionListener;
 import com.arnoldgalovics.jpa.util.ShowTableTestExecutionListener;
 import org.junit.Test;
@@ -23,12 +21,7 @@ public class BookServiceTest {
 
     @Test
     public void test() {
-
-        Book book1 = new Book("Veritas", 100, 321, 123456789L, Genre.FANTASY);
-        Book book2 = new Book("Mysterium", 110, 432, 987654321L, Genre.FANTASY);
-
-        bookService.save(book1);
-        bookService.save(book2);
+        bookService.save();
 
         bookService.selctWithJPQL();
         bookService.selectWithCriteriaApi("Veritas");
