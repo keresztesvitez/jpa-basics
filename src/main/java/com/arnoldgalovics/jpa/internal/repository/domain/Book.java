@@ -16,6 +16,9 @@ public class Book {
 
     public Book() {
     }
+    public Book(int id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue

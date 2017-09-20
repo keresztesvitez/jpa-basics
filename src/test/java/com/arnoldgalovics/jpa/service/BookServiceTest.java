@@ -29,6 +29,8 @@ public class BookServiceTest {
 
         bookService.save(book1);
         bookService.save(book2);
+
+        bookService.selctWithJPQL();
     }
 
 }
