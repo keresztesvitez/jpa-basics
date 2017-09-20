@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -34,14 +32,23 @@ public class BookService {
     }
 
     @Transactional
-    public void selectWithCriteriaApi() {
+    public void selectWithCriteriaApi(String nameFilterValue) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> query = cb.createQuery(Book.class);
         Root<Book> root = query.from(Book.class);
         Path<String> name = root.get("name");
-        query.where(cb.isNotNull(name));
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (nameFilterValue != null) {
+            predicates.add(cb.equal(name, nameFilterValue));
+        }
+
+        query.where(predicates.toArray(new Predicate[predicates.size()]));
         List<Book> books = entityManager.createQuery(query).getResultList();
         books.forEach(out::println);
+
+        //MEMO: Validate queries via logs
     }
 
 }

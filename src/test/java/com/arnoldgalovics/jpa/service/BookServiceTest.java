@@ -31,7 +31,7 @@ public class BookServiceTest {
         bookService.save(book2);
 
         bookService.selctWithJPQL();
-        bookService.selectWithCriteriaApi();
+        bookService.selectWithCriteriaApi("Veritas");
     }
 
 }
