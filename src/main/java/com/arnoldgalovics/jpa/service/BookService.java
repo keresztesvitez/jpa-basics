@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -24,7 +27,19 @@ public class BookService {
 
     @Transactional
     public void selctWithJPQL() {
-        List<Book> books = entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+//        List<Book> books = entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+        List<Book> books = entityManager.createQuery("FROM Book b", Book.class).getResultList();
         books.forEach(out::println);
     }
+
+    @Transactional
+    public void selectWithCriteriaApi() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> root = query.from(Book.class);
+//        query.select(root);
+        List<Book> books = entityManager.createQuery(query).getResultList();
+        books.forEach(out::println);
+    }
+
 }
